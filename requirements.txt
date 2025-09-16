@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+python-jose
+passlib[bcrypt]
+pydantic
+redis
+celery
+sqlalchemy
+psycopg2-binary
+pytest
+httpx
+prometheus_client
+opentelemetry-sdk
+opentelemetry-instrumentation-fastapi
