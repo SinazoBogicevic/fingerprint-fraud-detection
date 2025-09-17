@@ -174,3 +174,6 @@ logs/
 # Local configuration files
 config.local.py
 settings.local.py
+
+# Private project files
+todo.md
