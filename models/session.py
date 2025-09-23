@@ -27,7 +27,7 @@ class Session(Base):
     device_fingerprint = Column(Text, nullable=False)
     ip_address = Column(Text, nullable=False)
     user_agent = Column(Text, nullable=False)
-    started_at = Column(DateTime(timezone=True), server_default=func.current_timestamp)  # type: ignore
+    started_at = Column(DateTime(timezone=True), server_default=func.now())  # type: ignore
     ended_at = Column(DateTime(timezone=True), nullable=True)
     event_count = Column(Integer, default=0)
     score_id = Column(Integer, nullable=True)
