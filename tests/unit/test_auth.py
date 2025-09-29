@@ -57,3 +57,58 @@ def test_register_user_failure_invalid_password(client: TestClient):
     data = response.json()
     assert response.status_code == 400
     assert data["detail"] == "Invalid password format"
+
+
+def test_login_user_success(client: TestClient):
+    """
+    Test the login user success
+    """
+    payload = {"email": "test@test.com", "hashed_password": "Test1234567890!"}
+
+    response = client.post("/auth/register", json=payload)
+
+    payload = {"email": "test@test.com", "hashed_password": "Test1234567890!"}
+
+    response = client.post("/auth/login", json=payload)
+    data = response.json()
+    assert response.status_code == 200
+    assert data["token_type"] == "Bearer"
+    assert "access_token" in data
+    assert "refresh_token" in data
+
+
+def test_login_user_failure_invalid_email(client: TestClient):
+    """
+    Test the login user failure invalid email
+    """
+    payload = {"email": "test@test.c", "hashed_password": "Test1234567890!"}
+
+    response = client.post("/auth/login", json=payload)
+    data = response.json()
+    assert response.status_code == 400
+    assert data["detail"] == "Invalid email format"
+
+
+def test_login_user_failure_invalid_password(client: TestClient):
+    """
+    Test the login user failure invalid password
+    """
+    payload = {"email": "test@test.com", "hashed_password": "1234567890!"}
+
+    response = client.post("/auth/register", json=payload)
+
+    data = response.json()
+    assert response.status_code == 400
+    assert data["detail"] == "Invalid password format"
+
+
+def test_login_user_failure_user_does_not_exist(client: TestClient):
+    """
+    Test the login user failure user does not exist
+    """
+    payload = {"email": "test@test.com", "hashed_password": "Test1234567890!"}
+
+    response = client.post("/auth/login", json=payload)
+    data = response.json()
+    assert response.status_code == 401
+    assert data["detail"] == "User doesn't exist"
