@@ -14,7 +14,9 @@ def register_user(email: str, hashed_password: str, db: Session):
     """
     if not email and not hashed_password:
         raise HTTPException(status_code=400, detail="Email and password are required")
-    if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
+    if not re.match(
+        r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$", email
+    ):
         raise HTTPException(status_code=400, detail="Invalid email format")
     if not re.match(
         r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
