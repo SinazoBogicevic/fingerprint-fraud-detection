@@ -38,7 +38,7 @@ def register_endpoint(user: UserRegister, db: Session = Depends(get_db)):
     return register_user(user.email, user.hashed_password, db)
 
 
-@router.post("/login")
+@router.post("/login", status_code=status.HTTP_200_OK)
 def login_endpoint(user: UserLogin, db: Session = Depends(get_db)):
     """
     Login a user

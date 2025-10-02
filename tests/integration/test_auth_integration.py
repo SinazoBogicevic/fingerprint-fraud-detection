@@ -32,3 +32,21 @@ def test_persists_user(client: TestClient, db_session: Session):
     assert str(user_row.email) == payload["email"]
 
     assert str(user_row.hashed_password) == payload["hashed_password"]
+
+
+def test_returns_tokens(client: TestClient, db_session: Session):
+    """
+    Tests that tokens are returned when a user logs in
+    """
+
+    payload = {"email": "test@test.com", "hashed_password": "Test1234567890!"}
+
+    response = client.post("/auth/register", json=payload)
+
+    response = client.post("/auth/login", json=payload)
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["token_type"] == "Bearer"
+    assert "access_token" in data
+    assert "refresh_token" in data
